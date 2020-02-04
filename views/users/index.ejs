@@ -1,0 +1,142 @@
+<%- include('../includes/head.ejs')%>
+</head>
+
+<body>
+  <%- include('../includes/navbar.ejs') %>
+
+  <!-- HEADER -->
+  <header id="main-header" class="py-2 bg-primary text-white">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h1>
+            <i class="fas fa-cog"></i> Dashboard</h1>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ACTIONS -->
+  <section id="actions" class="py-4 mb-4 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#addPostModal">
+            <i class="fas fa-plus"></i> Request for a Leave!
+          </a>
+        </div>
+
+      </div>
+  </section>
+
+  <!-- POSTS -->
+  <section id="posts">
+    <div class="container">
+      <%- include('../includes/errorMessage.ejs', {errorMessage : errorMessage}) %>
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              <h4>Leave History</h4>
+            </div>
+            <% if(requests.length > 0){ %>
+            <table class="table table-striped">
+              <thead class="thead-dark">
+                <tr>
+                  <th class="text-center">Category</th>
+                  <th class="text-center">Duration</th>
+                  <th class="text-center">Attached File</th>
+                  <th class="text-center">Date</th>
+                  <th class="text-center">Status</th>
+                  <th class="text-center">Withdraw</th>
+                  <th class="text-center">Report</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <% requests.forEach(request => { %>
+                <tr>
+                  <td><%= request.category %></td>
+                  <td><%= request.duration %> days</td>
+                  <td><a href="<%= request.attachment %>">Download</a></td>
+                  <td><%= request.date %></td>
+                  <td>
+                    <% if(request.approval === 0){ %>
+                    <button type="button" class="btn btn-warning disabled">Waiting</button>
+                    <% } else if (request.approval ===1){ %>
+                    <button type="button" class="btn btn-success disabled">Approved</button>
+                    <% }else { %>
+                    <button type="button" class="btn btn-danger disabled">Denied</button>
+                    <% } %>
+
+
+                  </td>
+                  <td>
+                    <% if(request.withdraw == 1){ %>
+                    Cancelling...
+                    <% }else{ %>
+                    <% if(request.approval == 0){ %>
+                    <form action="/leave/delete" method="POST">
+                      <input type="hidden" name="_csrf" value="<%= csrf %>">
+                      <input type="hidden" name="leaveId" value="<%= request._id %>">
+                      <button type="submit" class="btn btn-danger btn-xs">
+                        <i class="fa fa-trash "></i>
+                      </button>
+                    </form>
+                    <% }else { %>
+                    <button type="btn btn-info" class="btn btn-warning btn-xs">
+                      <i class="fa fa-lock "></i>
+                    </button>
+
+                    <% } %>
+
+                  </td>
+                  <% } %>
+                  <td>
+                    <% if(request.approval == 0){ %>
+                    processing....
+                    <% }else{ %>
+                      <a href="/user/report/<%= request._id %>" class="btn btn-secondary">
+                          <i class="fas fa-angle-double-right"></i> Print
+                      </a>
+                    <% } %>
+                  </td>
+
+                </tr>
+                <% }) %>
+
+
+              </tbody>
+            </table>
+
+            <% } else { %>
+            <p class="text-center">No Leave History...</p>
+            <% } %>
+
+          </div>
+        </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <%- include('../includes/footer.ejs') %>
+
+
+  <!-- MODALS -->
+
+  <!-- ADD POST MODAL -->
+  <%- include('../includes/postModal.ejs') %>
+
+  <!-- ADD CATEGORY MODAL -->
+  <%- include('../includes/categoryModal.ejs') %>
+
+  <!-- ADD USER MODAL -->
+  <%- include('../includes/userModal.ejs') %>
+
+
+  <!-- End Script -->
+  <%- include('../includes/end.ejs') %>
+
+</body>
+
+</html>

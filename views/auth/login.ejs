@@ -1,0 +1,76 @@
+<%- include('../includes/head.ejs') %>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark p-0">
+    <div class="container">
+      <a href="/" class="navbar-brand">LAMS</a>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header id="main-header" class="py-2 bg-primary text-white">
+    <div class="container">
+        
+      <div class="row">
+        <div class="col-md-6">
+          <h1>
+            <i class="fas fa-user"></i> Existing User?</h1>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ACTIONS -->
+  <section id="actions" class="py-4 mb-4 bg-light">
+    <div class="container">
+      <div class="row">
+
+      </div>
+    </div>
+  </section>
+
+  <!-- LOGIN -->
+  <section id="login">
+    <div class="container">
+        <%- include('../includes/errorMessage.ejs', {errorMessage : errorMessage}) %>
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+          <div class="card">
+            <div class="card-header">
+              <h4>Login</h4>
+            </div>
+            <div class="card-body">
+              <form action="/login" method="POST">
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="text" name="email" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" name="password" class="form-control">
+                  <input type="hidden" name="_csrf" value="<%= csrf %>">
+                </div>
+                <input type="submit" value="Login" class="btn btn-primary btn-block">
+              </form>
+              <br>
+              <p class="text-center"><a href="/user/reset">Forgetten Password?</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <%- include('../includes/end.ejs') %>
+
+
+  <script>
+    // Get the current year for the copyright
+    $('#year').text(new Date().getFullYear());
+  </script>
+</body>
+
+</html>

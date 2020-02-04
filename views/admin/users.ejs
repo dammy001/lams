@@ -1,0 +1,104 @@
+<%- include('../includes/admin/head.ejs') %>
+</head>
+
+<body>
+
+  <%- include('../includes/admin/navbar.ejs') %>
+  <!-- HEADER -->
+  <header id="main-header" class="py-2 bg-warning text-white">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h1>
+            <i class="fas fa-users"></i> Users</h1>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SEARCH -->
+  <section id="search" class="py-4 mb-4 bg-light">
+    <div class="container">
+        <%- include('../includes/errorMessage.ejs', {errorMessage : errorMessage}) %>
+      <div class="row">
+        <div class="col-md-6 ml-auto">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search Users...">
+            <div class="input-group-append">
+              <button class="btn btn-warning">Search</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USERS -->
+  <section id="users">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              <h4>Registered Users</h4>
+            </div>
+            <% if(users.length > 0){ %>
+            <table class="table table-striped">
+              <thead class="thead-dark">
+                <tr>
+                  <th class="text-center">Name</th>
+                  <th class="text-center">Email</th>
+                  <th class="text-center">Status</th>
+                  <th class="text-center"></th>
+                </tr>
+              </thead>
+              <% users.forEach(user => { %>
+              <tbody>
+                <tr>
+                  <td class="text-center"><%= user.name %></td>
+                  <td class="text-center"><%= user.email %></td>
+                  <td class="text-center">
+                    <%= (user.is_active == 1) ? 'Active' : 'Disabled' %>
+                  </td>
+                  <td class="text-center">
+                      <% if(user.is_active == 1){ %>
+                      <form action="/admin/user/status/update" method="post">
+                        <input type="hidden" name="is_active" value="0">
+                        <input type="hidden" name="_csrf" value="<%= csrf %>">
+                        <input type="hidden" name="userId" value="<%= user._id %>">
+                        <button type="submit" class="btn btn-warning btn-sm">Disable</button>
+                      </form>
+                      <% }else{ %>
+                        <form action="/admin/user/status/update" method="post">
+                          <input type="hidden" name="is_active" value="1">
+                          <input type="hidden" name="_csrf" value="<%= csrf %>">
+                          <input type="hidden" name="userId" value="<%= user._id %>">
+                          <button type="submit" class="btn btn-primary btn-sm">Enable</button>
+                        </form>
+                      <% } %>
+                  </td>
+                </tr>
+              </tbody>
+              <% }) %>
+
+            </table>
+
+            <% }else{ %>
+            <p class="text-center">No user</p>
+            <% } %>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <%- include('../includes/footer.ejs') %>
+
+  <!-- End Script -->
+  <%- include('../includes/end.ejs') %>
+</body>
+
+</html>

@@ -1,0 +1,88 @@
+<%- include('../includes/admin/head.ejs') %>
+</head>
+
+<body>
+    <%- include('../includes/admin/navbar.ejs') %>
+
+    <!-- HEADER -->
+    <header id="main-header" class="py-2 bg-primary text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1>
+                        <i class="fas fa-user"></i> Edit Profile</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ACTIONS -->
+    <section id="actions" class="py-4 mb-4 bg-light">
+        <div class="container">
+                <%- include('../includes/errorMessage.ejs', {errorMessage : errorMessage}) %>
+            <div class="row">
+                <div class="col">
+                    <a href="/admin" class="btn btn-light btn-block">
+                        <i class="fas fa-arrow-left"></i> Back To Dashboard
+                    </a>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section id="profile">
+        <div class="container">
+            <form action="/admin/profile" method="post">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <div class="form-group">
+                            <label for="password">Old Password:</label>
+                            <input type="password" name="password" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <div class="form-group">
+                            <label for="oldpassword">New Password:</label>
+                            <input type="password" name="newpassword" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <div class="form-group">
+                            <label for="confirmpassword">Confirm Password:</label>
+                            <input type="password" name="confirmpassword" class="form-control">
+                            <input type="hidden" name="_csrf" value="<%= csrf %>">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-lock"></i>Change
+                            Password</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <%- include('../includes/end.ejs') %>
+
+
+
+    <script>
+        // Get the current year for the copyright
+        $('#year').text(new Date().getFullYear());
+
+        CKEDITOR.replace('editor1');
+    </script>
+</body>
+
+</html>
