@@ -23,6 +23,6 @@
     "nodemailer": "^6.4.16",
     "nodemailer-sendgrid-transport": "^0.2.0",
     "nodemon": "^2.0.0",
-    "pdfkit": "^0.10.0"
+    "pdfkit": "^0.13.0"
   }
 }
